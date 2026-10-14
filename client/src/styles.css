@@ -6,6 +6,13 @@
   --accent: #4d6bfe; /* DeepSeek 品牌蓝 */
   --danger: #d93026;
   --border: #e3e6eb;
+
+  /* Vant 主题映射（保持品牌一致性） */
+  --van-primary-color: var(--accent);
+  --van-danger-color: var(--danger);
+  --van-text-color: var(--ink);
+  --van-background: var(--bg);
+  --van-border-color: var(--border);
 }
 
 * {
@@ -15,6 +22,10 @@
 html,
 body {
   height: 100%;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -32,15 +43,12 @@ body {
   height: 100vh;
 }
 
-/* ---- header ---- */
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 48px;
-  padding: 0 20px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+/* ---- header（van-nav-bar 接管，这里只做尺寸与品牌元素） ---- */
+.van-nav-bar {
+  --van-nav-bar-height: 48px;
+  --van-nav-bar-background: var(--surface);
+  --van-nav-bar-title-text-color: var(--ink);
+  flex-shrink: 0;
 }
 
 .brand {
@@ -48,6 +56,8 @@ body {
   align-items: center;
   gap: 8px;
   font-weight: 600;
+  font-size: 15px;
+  padding-left: 4px;
 }
 
 .brand-dot {
@@ -63,6 +73,7 @@ body {
   gap: 6px;
   color: var(--muted);
   font-size: 12px;
+  padding-right: 4px;
 }
 
 .status-dot {
@@ -169,6 +180,7 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 4px 12px 12px 12px; /* 靠说话人一侧的角更小 */
+  transition: transform 0.1s ease;
 }
 
 .row.user .bubble {
@@ -176,6 +188,10 @@ body {
   border-color: var(--accent);
   color: #fff;
   border-radius: 12px 4px 12px 12px;
+}
+
+.bubble:active {
+  transform: scale(0.98);
 }
 
 .bubble.streaming::after {
@@ -194,7 +210,7 @@ body {
 .composer {
   background: var(--surface);
   border-top: 1px solid var(--border);
-  padding: 12px 20px 16px;
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
 }
 
 .composer-inner {
@@ -230,33 +246,47 @@ textarea:disabled {
   color: var(--muted);
 }
 
+/* 圆形图标发送/停止按钮（van-button 接管） */
 .send-btn {
+  --van-button-default-height: 40px;
   flex: none;
   width: 40px;
   height: 40px;
-  border: none;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-width: 0;
+  padding: 0;
+  font-size: 18px;
 }
 
-.send-btn.stop {
-  background: var(--danger);
-}
-
-.send-btn:disabled {
-  background: var(--muted);
-  cursor: default;
+.send-btn:active {
+  transform: scale(0.94);
 }
 
 .send-btn:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 2px;
+}
+
+/* ---- 移动端（≤768px） ---- */
+@media (max-width: 768px) {
+  .chat-inner {
+    padding: 16px 12px;
+  }
+
+  .bubble {
+    max-width: 82%;
+  }
+
+  .composer {
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .composer-inner {
+    gap: 8px;
+  }
+
+  textarea {
+    font-size: 16px; /* ≥16px 防 iOS 聚焦触发页面缩放 */
+  }
 }
 
 /* ---- motion ---- */

@@ -39,12 +39,16 @@ watch(
 
 <template>
   <div class="app">
-    <header class="app-header">
-      <div class="brand"><span class="brand-dot"></span>DeepSeek Chat</div>
-      <div class="status" :class="{ live: streaming }">
-        <span class="status-dot"></span>{{ streaming ? '生成中' : '就绪' }}
-      </div>
-    </header>
+    <van-nav-bar safe-area-inset-top>
+      <template #left>
+        <div class="brand"><span class="brand-dot"></span>DeepSeek Chat</div>
+      </template>
+      <template #right>
+        <div class="status" :class="{ live: streaming }">
+          <span class="status-dot"></span>{{ streaming ? '生成中' : '就绪' }}
+        </div>
+      </template>
+    </van-nav-bar>
 
     <div v-if="error" class="error-banner">
       <span>请求失败：{{ error }}</span>
@@ -75,14 +79,15 @@ watch(
           rows="1"
           @keydown.enter.exact.prevent="onEnter"
         ></textarea>
-        <button
+        <van-button
+          round
           class="send-btn"
-          :class="{ stop: streaming }"
+          :type="streaming ? 'danger' : 'primary'"
+          :icon="streaming ? 'stop' : 'arrow-up'"
           :disabled="!input.trim() && !streaming"
           :aria-label="streaming ? '停止生成' : '发送'"
-          :title="streaming ? '停止生成' : '发送'"
           @click="streaming ? stop() : onSend()"
-        >{{ streaming ? '■' : '↑' }}</button>
+        />
       </div>
     </footer>
   </div>

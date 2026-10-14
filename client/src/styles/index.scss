@@ -120,17 +120,20 @@
 }
 
 .empty-bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 14px;
   min-width: 24px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 4px 12px 12px 12px;
+}
 
-  &::after {
-    content: '▍';
-    color: var(--accent);
-    animation: blink 1s steps(1) infinite;
-  }
+.empty-logo {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .row {
@@ -253,8 +256,7 @@
 
 // ---- motion ----
 @media (prefers-reduced-motion: reduce) {
-  .bubble.streaming::after,
-  .empty-bubble::after {
+  .bubble.streaming::after {
     animation: none;
   }
 

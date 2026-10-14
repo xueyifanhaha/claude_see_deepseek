@@ -2,6 +2,7 @@
 import { ref, nextTick, watch } from 'vue';
 import { useChat } from './composables/useChat';
 import { md } from './utils/markdown';
+import deepseekLogo from './assets/deepseek-logo.svg';
 
 const { messages, streaming, error, send, stop } = useChat();
 
@@ -59,7 +60,9 @@ watch(
     <main ref="listEl" class="chat-list" @scroll="onScroll">
       <div class="chat-inner">
         <div v-if="messages.length === 0" class="empty">
-          <div class="empty-bubble"></div>
+          <div class="empty-bubble">
+            <img class="empty-logo" :src="deepseekLogo" alt="DeepSeek" />
+          </div>
           <p>向 DeepSeek 提问，开始对话</p>
         </div>
         <div v-for="(m, i) in messages" :key="i" class="row" :class="m.role">

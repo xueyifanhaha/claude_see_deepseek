@@ -1,0 +1,264 @@
+// 应用样式统一入口：先引依赖（重置基线、Markdown 排版），再是本文件布局与组件样式
+@use './reset';
+@use './markdown';
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+// ---- header（van-nav-bar 接管，这里只做尺寸与品牌元素） ----
+.van-nav-bar {
+  --van-nav-bar-height: 48px;
+  --van-nav-bar-background: var(--surface);
+  --van-nav-bar-title-text-color: var(--ink);
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  padding-left: 4px;
+}
+
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  padding-right: 4px;
+
+  &.live .status-dot {
+    background: var(--accent);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+// ---- error banner ----
+.error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 20px;
+  background: #fdecea;
+  color: var(--danger);
+  border-bottom: 1px solid #f5c9c5;
+  font-size: 13px;
+
+  .error-dismiss {
+    border: none;
+    background: none;
+    color: var(--danger);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+
+    &:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// ---- chat list ----
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chat-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  @media (max-width: 768px) {
+    padding: 16px 12px;
+  }
+}
+
+.empty {
+  margin: 64px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  p {
+    margin: 0;
+    color: var(--muted);
+  }
+}
+
+.empty-bubble {
+  padding: 10px 14px;
+  min-width: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px 12px 12px 12px;
+
+  &::after {
+    content: '▍';
+    color: var(--accent);
+    animation: blink 1s steps(1) infinite;
+  }
+}
+
+.row {
+  display: flex;
+
+  &.user {
+    justify-content: flex-end;
+
+    .bubble {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      border-radius: 12px 4px 12px 12px;
+    }
+  }
+}
+
+.bubble {
+  max-width: 72%;
+  padding: 10px 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px 12px 12px 12px; // 靠说话人一侧的角更小
+  transition: transform 0.1s ease;
+
+  @media (max-width: 768px) {
+    max-width: 82%;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.streaming::after {
+    content: '▍';
+    color: var(--accent);
+    animation: blink 1s steps(1) infinite;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+// ---- composer ----
+.composer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+
+  @media (max-width: 768px) {
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  }
+}
+
+.composer-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
+
+  textarea {
+    flex: 1;
+    resize: none;
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    outline: none;
+    field-sizing: content;
+    max-height: 160px;
+
+    @media (max-width: 768px) {
+      font-size: 16px; // ≥16px 防 iOS 聚焦触发页面缩放
+    }
+
+    &:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+
+    &:disabled {
+      color: var(--muted);
+    }
+  }
+}
+
+// 圆形图标发送/停止按钮（van-button 接管）
+.send-btn {
+  --van-button-default-height: 40px;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  min-width: 0;
+  padding: 0;
+  font-size: 18px;
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+}
+
+// ---- motion ----
+@media (prefers-reduced-motion: reduce) {
+  .bubble.streaming::after,
+  .empty-bubble::after {
+    animation: none;
+  }
+
+  .status.live .status-dot {
+    animation: none;
+  }
+}

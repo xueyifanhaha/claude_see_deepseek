@@ -1,0 +1,39 @@
+// 设计令牌 + 重置与基线（partial，由 index.scss @use 引入）
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #1f2329;
+  --muted: #8a919f;
+  --accent: #4d6bfe; // DeepSeek 品牌蓝
+  --danger: #d93026;
+  --border: #e3e6eb;
+
+  // Vant 主题映射（保持品牌一致性）
+  --van-primary-color: var(--accent);
+  --van-danger-color: var(--danger);
+  --van-text-color: var(--ink);
+  --van-background: var(--bg);
+  --van-border-color: var(--border);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+}

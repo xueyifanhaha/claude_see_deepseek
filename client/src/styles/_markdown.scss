@@ -1,0 +1,109 @@
+// Markdown 渲染（assistant 气泡 .md 内，partial，由 index.scss @use 引入）
+.md {
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  p {
+    margin: 0 0 10px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 16px 0 8px;
+    line-height: 1.4;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 17px;
+  }
+
+  h3 {
+    font-size: 15px;
+  }
+
+  ul,
+  ol {
+    margin: 0 0 10px;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 2px 0;
+  }
+
+  blockquote {
+    margin: 0 0 10px;
+    padding: 2px 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 12px 0;
+  }
+
+  code {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 13px;
+    background: var(--bg);
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+
+  pre {
+    background: #282c34;
+    color: #e6e6e6;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0 0 10px;
+
+    code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    display: block; // 宽表格可横向滚动，不撑破气泡
+    overflow-x: auto;
+    max-width: 100%;
+    margin: 0 0 10px;
+    font-size: 13px;
+  }
+
+  th,
+  td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    text-align: left;
+  }
+
+  th {
+    background: var(--bg);
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) td {
+    background: #fafbfc;
+  }
+}

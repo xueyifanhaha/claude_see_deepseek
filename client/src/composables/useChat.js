@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { readSSE } from '../api/sse';
 
 // 常见错误映射为可行动的提示，其余原样透传
@@ -26,7 +26,8 @@ export function useChat() {
     controller = new AbortController();
 
     const userMsg = { role: 'user', content: text };
-    const assistantMsg = { role: 'assistant', content: '' };
+    // reactive：直接改 content 才能逐 delta 触发渲染（普通对象绕过 Vue 3 Proxy，流式不更新）
+    const assistantMsg = reactive({ role: 'assistant', content: '' });
     // 请求体只含历史 + 新用户消息，不含空的 assistant 占位
     const payload = [...messages.value, userMsg].map(({ role, content }) => ({ role, content }));
     messages.value.push(userMsg, assistantMsg); // 占位先入列，UI 立即出现空助手气泡

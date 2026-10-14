@@ -31,7 +31,7 @@
 
 - **线协议**：`POST /api/chat` 请求体 `{"messages":[{"role","content"}]}`；成功响应 `Content-Type: text/event-stream`，帧序列为 `data: {"type":"delta","content":"..."}`，结束发 `data: {"type":"done"}`。错误分两段：流未开始（无密钥、上游非 200）返回普通 JSON；流开始后出错发 `data: {"type":"error","message":"..."}`
 - **后端** `server/src/`：`deepseek.js` 调上游并解析上游 SSE 为 async generator；`index.js` 负责路由、SSE 写出、客户端断开时 abort 上游
-- **前端** `client/src/`：`api/sse.js` 纯函数流解析器；`composables/useChat.js` 会话状态机（多轮历史全量重发、停止、错误回滚）；`App.vue` 界面
+- **前端** `client/src/`：`api/sse.js` 纯函数流解析器；`composables/useChat.js` 会话状态机（多轮历史全量重发、停止、错误回滚）；`utils/markdown.js` AI 回复的 Markdown 渲染（marked + DOMPurify 消毒）；`App.vue` 界面
 - 多轮对话：客户端持有完整 messages 数组，每次全量重发，服务端无状态
 
 ## 排障
@@ -45,6 +45,6 @@
 
 ## 扩展方向
 
-- Markdown 渲染（引入 marked + 注意 v-html 的 XSS 面）
+- 代码高亮（highlight.js）
 - 历史过长时截断上下文
 - 会话保存 / 多会话切换

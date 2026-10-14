@@ -1,6 +1,7 @@
 <script setup>
 import { ref, nextTick, watch } from 'vue';
 import { useChat } from './composables/useChat';
+import { md } from './utils/markdown';
 
 const { messages, streaming, error, send, stop } = useChat();
 
@@ -65,7 +66,11 @@ watch(
           <div
             class="bubble"
             :class="{ streaming: streaming && i === messages.length - 1 }"
-          >{{ m.content }}</div>
+          >
+            <!-- assistant 走 Markdown 渲染（消毒后），用户消息保持纯文本 -->
+            <div v-if="m.role === 'assistant'" class="md" v-html="md(m.content)"></div>
+            <template v-else>{{ m.content }}</template>
+          </div>
         </div>
       </div>
     </main>

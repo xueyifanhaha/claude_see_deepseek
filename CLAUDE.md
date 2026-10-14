@@ -49,7 +49,7 @@ curl -N -X POST http://localhost:3000/api/chat \
 2. **帧切分算法**：缓冲 + `\n\n` 分帧 + `\r\n→\n` 归一 + `TextDecoder(stream:true)`（跨 chunk 多字节）。前后端各一份实现，改协议格式时两侧同步
 3. **DeepSeek 帧结构**：首帧只有 `delta.role`、尾帧只有 `finish_reason`，均无 content——解析时必须跳过空 content，靠 `[DONE]` 判定结束
 4. **Vite 代理 target 用 `127.0.0.1`** 而非 localhost（Windows 上 localhost 可能解析为 IPv6 `::1` 导致 ECONNREFUSED）
-5. 前端有意不用 marked/v-html 渲染 Markdown（XSS 面），纯文本 + `white-space: pre-wrap`
+5. assistant 消息经 `client/src/utils/markdown.js`（marked 解析 + DOMPurify 消毒）渲染 Markdown 富文本；**任何改动不得绕过消毒直接 v-html**。用户消息保持纯文本不解析
 6. `server/.env` 已被 gitignore，密钥绝不入库
 
 ## 环境注意

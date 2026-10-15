@@ -52,6 +52,10 @@ curl -N -X POST http://localhost:3000/api/chat \
 5. assistant 消息经 `client/src/utils/markdown.js`（marked 解析 + DOMPurify 消毒）渲染 Markdown 富文本；**任何改动不得绕过消毒直接 v-html**。用户消息保持纯文本不解析
 6. `server/.env` 已被 gitignore，密钥绝不入库
 
+## 项目约定
+
+- 功能/修复类改动提交时同步更新 `CHANGELOG.md`（Keep a Changelog 语义分类：Added / Fixed / Changed，从新到旧；发布时把 Unreleased 提升为版本号）
+
 ## 环境注意
 
 - 本机 5173 端口长期被其他程序占用，实际开发地址常为 5174

@@ -43,6 +43,10 @@
 | 浏览器请求 `/api` 失败 | 后端没启动，或 3000 端口被占（可用 `PORT` 环境变量改端口，同步改 `client/vite.config.js` 代理 target） |
 | 5173 端口被占 | Vite 会自动改用 5174 并在终端打印实际地址；也可改 `client/vite.config.js` 的 `server.port` |
 
+## 更新日志
+
+详见 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 扩展方向
 
 - 代码高亮（highlight.js）
